@@ -4,7 +4,7 @@ A CLI tool to get ESV verses.
 
 ## API Token
 
-Get your API token from https://api.esv.org/\
+Get your API token from https://api.esv.org/ \
 Follow the documentation instructions, and inside `.bible-config`, assign
 `ESV_API_TOKEN` to your given API token.\
 Keep this private.
