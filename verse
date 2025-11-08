@@ -170,8 +170,5 @@ if [ -p /dev/stdin ]; then
 elif [ $# -gt 0 ]; then
     fetch_verse "$1"
 else
-    echo "Usage: $0 \"John 3:16\""
-    echo "  or: cat verses.txt | $0"
-    echo "  or: echo \"John 3:16\" | $0 "
-    exit 1
+    show_help
 fi
