@@ -112,7 +112,7 @@ fetch_verse() {
     response=$(curl -s -H "Authorization: Token $ESV_API_TOKEN" "https://api.esv.org/v3/passage/text/?q=$encoded_verse$query_params")
     if [ -n "$response" ]; then
         echo "$response" | jq -r ".passages[]?" | while IFS= read -r passage; do
-            echo -e "$passage"
+            echo -e "$passage" | fmt -w 80
         done
         echo ""
     else
