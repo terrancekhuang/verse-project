@@ -22,6 +22,20 @@ fi
 
 source "$CONFIG_FILE"
 
+if [[ -z "$ESV_API_TOKEN" || "$ESV_API_TOKEN" == "your-api-token-here" ]]; then
+    echo "Error: ESV_API_TOKEN not configured in $CONFIG_FILE" >&2
+    exit 1
+fi
+
+for _var in INCLUDE_PASSAGE_REFERENCES INCLUDE_VERSE_NUMBERS \
+            INCLUDE_FIRST_VERSE_NUMBERS INCLUDE_FOOTNOTES INCLUDE_FOOTNOTE_BODY \
+            INCLUDE_HEADINGS INCLUDE_SHORT_COPYRIGHT INCLUDE_PASSAGE_HORIZONTAL_LINES \
+            INCLUDE_HEADING_HORIZONTAL_LINES INCLUDE_SELAHS INDENT_POETRY; do
+    _val="${!_var:-false}"
+    printf -v "$_var" '%s' "${_val,,}"
+done
+unset _var _val
+
 build_query_params() {
     local params=""
 
@@ -52,14 +66,13 @@ fetch_verse() {
     local encoded_verse=${verse// /+}
     local query_params=$(build_query_params)
 
-    response=$(curl -s -H "Authorization: Token $ESV_API_TOKEN" "https://api.esv.org/v3/passage/text/?q=$encoded_verse$query_params")
-    if [ -n "$response" ]; then
+    if response=$(curl -sf -H "Authorization: Token $ESV_API_TOKEN" "https://api.esv.org/v3/passage/text/?q=$encoded_verse$query_params"); then
         echo "$response" | jq -r ".passages[]?" | while IFS= read -r passage; do
-            echo -e "$passage" | fmt -w 80
+            echo -e "$passage"
         done
         echo ""
     else
-        echo "Error fetching: $verse"
+        echo "Error fetching: $verse" >&2
         echo ""
     fi
 }
