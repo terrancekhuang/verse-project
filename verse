@@ -11,6 +11,11 @@ create_default_config() {
     exit 1
 }
 
+if [ ! -f "$EXAMPLE_FILE" ]; then
+    echo "Error: $EXAMPLE_FILE not found. Your installation may be incomplete." >&2
+    exit 1
+fi
+
 if [ ! -f "$CONFIG_FILE" ]; then
     create_default_config
 fi
