@@ -56,13 +56,10 @@ fetch_verse() {
     local query_params=$(build_query_params)
 
     if response=$(curl -sf -H "Authorization: Token $ESV_API_TOKEN" "https://api.esv.org/v3/passage/text/?q=$encoded_verse$query_params"); then
-        echo "$response" | jq -r ".passages[]?" | while IFS= read -r passage; do
-            echo -e "$passage"
-        done
-        echo ""
+        echo "$response" | jq -r ".passages[]?" | awk '{lines[NR]=$0} END{last=NR; while(last>0 && lines[last]=="") last--; for(i=1;i<=last;i++) print lines[i]}'
     else
         echo "Error fetching: $verse" >&2
-        echo ""
+        return 1
     fi
 }
 
@@ -109,8 +106,13 @@ done
 shift $((OPTIND - 1))
 
 if [ -p /dev/stdin ]; then
+    first=true
     while IFS= read -r line; do
-        [ -n "$line" ] && fetch_verse "$line"
+        if [ -n "$line" ]; then
+            [ "$first" = true ] || echo ""
+            first=false
+            fetch_verse "$line"
+        fi
     done
 elif [ $# -gt 0 ]; then
     fetch_verse "$1"
