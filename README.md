@@ -10,6 +10,7 @@ A Bash CLI for fetching ESV Bible passages from the terminal.
 ## Setup
 
 1. Clone the repo and make the script executable:
+
    ```bash
    git clone <repo-url>
    cd verse-project
@@ -17,11 +18,12 @@ A Bash CLI for fetching ESV Bible passages from the terminal.
    ```
 
 2. Copy the example config and add your API token:
+
    ```bash
    cp .env.example .env
    ```
 
-3. Get an API token from [api.esv.org](https://api.esv.org/) and set it in `.env`:
+3. Get an API token from [https://api.esv.org/account/create-application/](https://api.esv.org/account/create-application/) and set it in `.env`:
    ```
    ESV_API_TOKEN="your-token-here"
    ```
@@ -38,10 +40,10 @@ cat verses.txt | ./verse                   # one reference per line
 
 **Options:**
 
-| Flag | Description |
-|------|-------------|
-| `-h` | Show help |
-| `-c` | Show config file path |
+| Flag | Description              |
+| ---- | ------------------------ |
+| `-h` | Show help                |
+| `-c` | Show config file path    |
 | `-e` | Open config in `$EDITOR` |
 
 ## Configuration
@@ -50,12 +52,12 @@ All options in `.env` are optional except `ESV_API_TOKEN`. See `.env.example` fo
 
 Common options:
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `INCLUDE_PASSAGE_REFERENCES` | `true` | Show the passage reference before the text |
-| `INCLUDE_VERSE_NUMBERS` | `true` | Show verse numbers inline |
-| `INCLUDE_HEADINGS` | `true` | Show section headings |
-| `INCLUDE_FOOTNOTES` | `true` | Show footnote callouts |
-| `INCLUDE_FOOTNOTE_BODY` | `true` | Show footnote text below passage |
-| `INCLUDE_SHORT_COPYRIGHT` | `true` | Append "(ESV)" to the text |
-| `LINE_LENGTH` | `0` | Wrap lines at this width (`0` = unlimited) |
+| Variable                     | Default | Description                                |
+| ---------------------------- | ------- | ------------------------------------------ |
+| `INCLUDE_PASSAGE_REFERENCES` | `true`  | Show the passage reference before the text |
+| `INCLUDE_VERSE_NUMBERS`      | `true`  | Show verse numbers inline                  |
+| `INCLUDE_HEADINGS`           | `true`  | Show section headings                      |
+| `INCLUDE_FOOTNOTES`          | `true`  | Show footnote callouts                     |
+| `INCLUDE_FOOTNOTE_BODY`      | `true`  | Show footnote text below passage           |
+| `INCLUDE_SHORT_COPYRIGHT`    | `true`  | Append "(ESV)" to the text                 |
+| `LINE_LENGTH`                | `0`     | Wrap lines at this width (`0` = unlimited) |
