@@ -2,22 +2,11 @@
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CONFIG_FILE="${SCRIPT_DIR}/.env"
-EXAMPLE_FILE="${SCRIPT_DIR}/.env.example"
-
-create_default_config() {
-    cp "$EXAMPLE_FILE" "$CONFIG_FILE"
-    echo "Created config at: $CONFIG_FILE"
-    echo "Please edit it and add your ESV_API_TOKEN"
-    exit 1
-}
-
-if [ ! -f "$EXAMPLE_FILE" ]; then
-    echo "Error: $EXAMPLE_FILE not found. Your installation may be incomplete." >&2
-    exit 1
-fi
 
 if [ ! -f "$CONFIG_FILE" ]; then
-    create_default_config
+    echo "Config file not found. Copy .env.example to .env and add your ESV_API_TOKEN:" >&2
+    echo "  cp \"${SCRIPT_DIR}/.env.example\" \"${CONFIG_FILE}\"" >&2
+    exit 1
 fi
 
 source "$CONFIG_FILE"
@@ -93,7 +82,7 @@ show_help() {
     echo "  cat verses.txt | $0"
     echo "  echo \"John 3:16\" | $0"
     echo ""
-    echo "Config file: $CONFIG_FILE (see $EXAMPLE_FILE for all options)"
+    echo "Config file: $CONFIG_FILE (see .env.example for all options)"
 }
 
 while getopts "hce" opt; do
