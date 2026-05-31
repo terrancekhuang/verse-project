@@ -1,33 +1,61 @@
 # ESV Verse CLI
 
-A CLI tool to get ESV verses.
+A Bash CLI for fetching ESV Bible passages from the terminal.
 
-## API Token
+## Requirements
 
-Get your API token from https://api.esv.org/ \
-Follow the documentation instructions, and inside `.bible-config`, assign
-`ESV_API_TOKEN` to your given API token.\
-Keep this private.
+- `curl`
+- `jq`
+
+## Setup
+
+1. Clone the repo and make the script executable:
+   ```bash
+   git clone <repo-url>
+   cd verse-project
+   chmod +x verse
+   ```
+
+2. Copy the example config and add your API token:
+   ```bash
+   cp .env.example .env
+   ```
+
+3. Get an API token from [api.esv.org](https://api.esv.org/) and set it in `.env`:
+   ```
+   ESV_API_TOKEN="your-token-here"
+   ```
 
 ## Usage
 
-You can pass in arguments inside quotes after the `verse` command.\
-Examples:
+```bash
+./verse "John 3:16"
+./verse "John 3:16-17"
+./verse "John 3:16-17; Matthew 28:18-20"  # multiple passages
+echo "John 3:16" | ./verse                 # piped input
+cat verses.txt | ./verse                   # one reference per line
+```
 
-- `verse "John 3:16"`
-- `verse "John 3:16-17"`
-- `verse "John 3:16,17"`
-- `verse "John 3:16-17; Matthew 28:18-20"`
+**Options:**
 
-You can also pipe verses separated by a newline into `verse`.\
-Examples:
-
-- `cat verses.txt | verse`
-- `echo "John 3:16" | verse`
+| Flag | Description |
+|------|-------------|
+| `-h` | Show help |
+| `-c` | Show config file path |
+| `-e` | Open config in `$EDITOR` |
 
 ## Configuration
 
-On the first time running, it will generate a `.bible-config`.\
-All configs are optional EXCEPT for ESV_API_TOKEN, which needs to be filled out
-for the program to work.\
-Edit the config's options to your liking, for example, `INCLUDE_VERSE_NUMBERS=true`.
+All options in `.env` are optional except `ESV_API_TOKEN`. See `.env.example` for the full list with descriptions.
+
+Common options:
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `INCLUDE_PASSAGE_REFERENCES` | `true` | Show the passage reference before the text |
+| `INCLUDE_VERSE_NUMBERS` | `true` | Show verse numbers inline |
+| `INCLUDE_HEADINGS` | `true` | Show section headings |
+| `INCLUDE_FOOTNOTES` | `true` | Show footnote callouts |
+| `INCLUDE_FOOTNOTE_BODY` | `true` | Show footnote text below passage |
+| `INCLUDE_SHORT_COPYRIGHT` | `true` | Append "(ESV)" to the text |
+| `LINE_LENGTH` | `0` | Wrap lines at this width (`0` = unlimited) |
