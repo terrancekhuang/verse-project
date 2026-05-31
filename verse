@@ -1,71 +1,12 @@
 #!/usr/bin/env bash
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONFIG_FILE="${SCRIPT_DIR}/.bible-config"
+CONFIG_FILE="${SCRIPT_DIR}/.env"
+EXAMPLE_FILE="${SCRIPT_DIR}/.env.example"
 
 create_default_config() {
-    cat >"$CONFIG_FILE" <<'EOF'
-# ESV API Configuration
-# Get your API token from https://api.esv.org/
-
-# Your ESV API Token (REQUIRED)
-ESV_API_TOKEN="your-api-token-here"
-
-# Include the passage reference before the text.
-INCLUDE_PASSAGE_REFERENCES=true
-
-# Include verse numbers.
-INCLUDE_VERSE_NUMBERS=true
-
-# Include the verse number for the first verse of a chapter.
-INCLUDE_FIRST_VERSE_NUMBERS=true
-
-# Include callouts to footnotes in the text.
-INCLUDE_FOOTNOTES=true
-
-# Include footnote bodies below the text. Only works if INCLUDE_FOOTNOTES is also true.
-INCLUDE_FOOTNOTE_BODY=true
-
-# Include section headings. For example, the section heading of Matthew 5 is "The Sermon on the Mount".
-INCLUDE_HEADINGS=true
-
-# Include "(ESV)" at the end of the text.
-INCLUDE_SHORT_COPYRIGHT=true
-
-# Include a line of equal signs (====) above the beginning of each passage.
-INCLUDE_PASSAGE_HORIZONTAL_LINES=false
-
-# Include a line of underscores (____) above each section heading.
-INCLUDE_HEADING_HORIZONTAL_LINES=false
-
-# Controls the length of the line for INCLUDE_PASSAGE_HORIZONTAL_LINES and INCLUDE_HEADING_HORIZONTAL_LINES
-HORIZONTAL_LINE_LENGTH=55
-
-# Include "Selah" in certain Psalms.
-INCLUDE_SELAHS=true
-
-# Controls indentation. Must be "space" or "tab".
-INDENT_USING="space"
-
-# Controls how many indentation characters start a paragraph.
-INDENT_PARAGRAPHS=2
-
-# Controls indentation of poetry lines.
-INDENT_POETRY=true
-
-# Controls how many indentation characters are used per indentation level for poetry lines.
-INDENT_POETRY_LINES=4
-
-# Controls how many indentation characters are used for "Declares the LORD" in some of the prophets.
-INDENT_DECLARES=40
-
-# Controls how many indentation characters are used for Psalm doxologies.
-INDENT_PSALM_DOXOLOGY=30
-
-# Controls how long a line can be before it is wrapped. Use 0 for unlimited line lengths.
-LINE_LENGTH=0
-EOF
-    echo "Created config template at: $CONFIG_FILE"
+    cp "$EXAMPLE_FILE" "$CONFIG_FILE"
+    echo "Created config at: $CONFIG_FILE"
     echo "Please edit it and add your ESV_API_TOKEN"
     exit 1
 }
@@ -137,7 +78,7 @@ show_help() {
     echo "  cat verses.txt | $0"
     echo "  echo \"John 3:16\" | $0"
     echo ""
-    echo "Config file: $CONFIG_FILE"
+    echo "Config file: $CONFIG_FILE (see $EXAMPLE_FILE for all options)"
 }
 
 while getopts "hce" opt; do
