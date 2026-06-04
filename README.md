@@ -13,7 +13,7 @@ A Bash CLI for fetching ESV Bible passages from the terminal.
 
    ```bash
    git clone <repo-url>
-   cd verse-project
+   cd esv-cli
    chmod +x verse
    ```
 
